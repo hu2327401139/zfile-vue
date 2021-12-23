@@ -1,6 +1,8 @@
 <template>
     <div id="List" v-loading="initLoading">
 
+        <div class="no-result" v-if="(this.$store.getters.tableData.length-1) === 0">啊偶，这个文件夹是空的😫</div>
+
         <el-table
                 v-loading="loading"
                 element-loading-text="拼命加载中"
@@ -85,7 +87,6 @@
                 </template>
             </el-table-column>
         </el-table>
-
 
         <el-dialog id="textDialog" :destroy-on-close="true"
                    :title="currentClickRow.name"
@@ -596,6 +597,27 @@
 </script>
 
 <style scoped>
+
+    .no-result{
+        z-index: 1;
+        text-align: center;
+        font-size: 14px;
+        color: #909399;
+
+        /* 垂直居中 */
+        position: fixed;
+        top: 50%;
+        width: 100%;
+
+        /* 禁止文字选中 */
+        -webkit-touch-callout: none;
+        -moz-user-select: none; /*火狐*/
+        -webkit-user-select: none;  /*webkit浏览器*/
+        -ms-user-select: none;   /*IE10*/
+        -khtml-user-select: none; /*早期浏览器*/
+        user-select: none;
+    }
+
     #List {
         overflow: hidden;
     }
@@ -726,6 +748,11 @@
         width: 80%;
         height: auto;
         margin: 0 auto;
+    }
+
+    /* 文件名过长用...替代 */
+    #List >>> .el-table__row .cell{
+        white-space: nowrap;
     }
 
     #List >>> .el-table__header .cell i {
